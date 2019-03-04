@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allmsi.dingtalk.dao.DingTalkUserDeptMapper">
+	<resultMap id="BaseResultMap" type="com.allmsi.dingtalk.model.po.DingTalkUserDept">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="userId" property="userId" jdbcType="VARCHAR" />
+		<result column="deptId" property="deptId" jdbcType="VARCHAR" />
+		<result column="udType" property="udType" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectDeptByDingUserId" resultMap="BaseResultMap">
+		select d.deptId,d.userId
+		from im_ta_user_dept d
+		left join im_ta_user u on d.userId = u.id
+		where
+		u.dingUserId = #{_parameter,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertSelective" parameterType="com.allmsi.dingtalk.model.po.DingTalkUserDept">
+		insert into im_ta_user_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="deptId != null">
+				deptId,
+			</if>
+			<if test="udType != null">
+				udType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="roleid != null">
+				#{deptId,jdbcType=VARCHAR},
+			</if>
+			<if test="udType != null">
+				#{udType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into im_ta_user_dept (id, userId, deptId,udType)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id}, #{item.userId}, #{item.deptId},#{item.udType})
+		</foreach>
+	</insert>
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+		delete from  im_ta_user_dept
+		where userId = #{_parameter,jdbcType=VARCHAR}
+	</delete>
+</mapper>

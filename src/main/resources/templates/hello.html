@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- <code  class="language-java">
+		<ul  th:each="lm : ${deptIds}">
+			<li  th:each="entry : ${lm}"  th:text="${entry}" ></li>   
+		</ul>
+	</code> -->
+	   <tbody >  
+            <td th:each="deptIds:${deptIds}" th:text="${deptIds}"></td>  
+        </tbody> 
+</body>
+</html>

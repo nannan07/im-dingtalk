@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>id</th>
+			<th>名称</th>
+		</tr>
+		<tr th:each="deptInfo : ${deptList}">
+			<td th:text="${deptInfo.id}"></td>
+			<td th:text="${deptInfo.deptName}"></td>
+		</tr>
+	</table>
+</body>
+</html>

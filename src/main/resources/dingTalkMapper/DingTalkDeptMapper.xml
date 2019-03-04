@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allmsi.dingtalk.dao.DingTalkDeptMapper">
+	<resultMap id="BaseResultMap" type="com.allmsi.dingtalk.model.po.DingTalkDept">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="deptCode" property="deptCode" jdbcType="VARCHAR" />
+		<result column="deptName" property="deptName" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="corporation" property="corporation" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="bLicenseId" property="bLicenceId" jdbcType="VARCHAR" />
+		<result column="deptType" property="deptType" jdbcType="INTEGER" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="cUserId" property="cUserId" jdbcType="VARCHAR" />
+		<result column="uUserId" property="uUserId" jdbcType="VARCHAR" />
+		<result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+		<result column="uTime" property="uTime" jdbcType="TIMESTAMP" />
+		<result column="del" property="del" jdbcType="INTEGER" />
+		<result column="udType" property="udType" jdbcType="VARCHAR" />
+		<result column="systemId" property="systemId" jdbcType="VARCHAR" />
+		<result column="dingDeptId" property="dingDeptId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectDeptList" resultMap="BaseResultMap">
+		select
+		id,deptName,parentId,sort,dingDeptId from im_ta_dept where del=0
+	</select>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into im_ta_dept (id, deptName,
+		parentId,sort,dingDeptId,cTime,del)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id}, #{item.deptName},
+			#{item.parentId},#{item.sort},#{item.dingDeptId},now(),0)
+		</foreach>
+	</insert>
+	<insert id="insertSelective" parameterType="com.allmsi.dingtalk.model.po.DingTalkDept">
+		insert into im_ta_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="deptCode != null">
+				deptCode,
+			</if>
+			<if test="deptName != null">
+				deptName,
+			</if>
+			<if test="parentId != null">
+				parentId,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="corporation != null">
+				corporation,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="bLicenceId != null">
+				bLicenseId,
+			</if>
+			<if test="deptType != null">
+				deptType,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="cUserId != null">
+				cUserId,
+			</if>
+			<if test="uUserId != null">
+				uUserId,
+			</if>
+			cTime,del,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="deptCode != null">
+				#{deptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptName != null">
+				#{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="corporation != null">
+				#{corporation,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="bLicenceId != null">
+				#{bLicenceId,jdbcType=VARCHAR},
+			</if>
+			<if test="deptType != null">
+				#{deptType,jdbcType=INTEGER},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="cUserId != null">
+				#{cUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="uUserId != null">
+				#{uUserId,jdbcType=VARCHAR},
+			</if>
+			now(),0
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.allmsi.dingtalk.model.po.DingTalkDept">
+		update im_ta_dept
+		<set>
+			<if test="deptName != null">
+				deptName = #{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parentId = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="deptType != null">
+				deptType = #{deptType,jdbcType=INTEGER},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			uTime = now()
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update im_ta_dept
+		set del = 1, uTime = now() where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateBatch" parameterType="java.util.List">
+		<foreach collection="list" item="item" index=""
+			separator=" ;">
+			update im_ta_dept set deptName =
+			#{item.deptName,jdbcType=VARCHAR} ,parentId =
+			#{item.parentId,jdbcType=VARCHAR},sort =
+			#{item.sort,jdbcType=INTEGER}
+			where dingDeptId =
+			#{item.dingDeptId,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+	<update id="delBatch" parameterType="java.util.List">
+		update im_ta_dept set del =1
+		where dingDeptId in 
+		<foreach collection="list" index="index" item="item"
+			separator="," open="(" close=")">
+			#{item.dingDeptId,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+
+</mapper>
